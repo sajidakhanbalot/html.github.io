@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced HTML Quiz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c5364;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2c5364;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: #f0f5ff;
+            border-color: #2c5364;
+        }
+        
+        .option.selected {
+            background: #d1e7ff;
+            border-color: #2c5364;
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background: #2c5364;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: #203a43;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c5364;
+            margin: 20px 0;
+        }
+        
+        .summary {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #2c5364;
+            border-radius: 5px;
+            transition: width 0.3s;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .difficulty {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .difficulty-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .intermediate {
+            background-color: #ffc107;
+            color: #333;
+        }
+        
+        .advanced {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .expert {
+            background-color: #6f42c1;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Intermediate to Advanced HTML Quiz</h1>
+            <p class="description">Test your HTML knowledge with these 70 challenging questions covering intermediate to advanced concepts.</p>
+            <div class="stats">
+                <div>Total Questions: <span id="total-questions">70</span></div>
+                <div>Correct: <span id="correct-answers">0</span></div>
+                <div>Incorrect: <span id="incorrect-answers">0</span></div>
+                <div>Score: <span id="score">0</span>%</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+        </header>
+        
+        <div id="quiz-container">
+            <div class="question">
+                <div class="question-number">Question <span id="current-question">1</span>/70</div>
+                <div class="difficulty">
+                    <span class="difficulty-badge intermediate">Intermediate</span>
+                </div>
+                <div class="question-text" id="question-text">Which attribute is used to specify that an input field must be filled out?</div>
+                <div class="options" id="options">
+                    <div class="option" data-index="0">required</div>
+                    <div class="option" data-index="1">validate</div>
+                    <div class="option" data-index="2">mandatory</div>
+                    <div class="option" data-index="3">necessary</div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" disabled>Previous</button>
+                <button id="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <div id="results-container" class="hidden">
+            <div class="results">
+                <h2>Quiz Completed!</h2>
+                <div class="score">Your Score: <span id="final-score">0</span>%</div>
+                <p id="result-message">Great job! You have a solid understanding of advanced HTML concepts.</p>
+                <button id="restart-btn">Restart Quiz</button>
+            </div>
+            
+            <div class="summary">
+                <h3>Question Summary</h3>
+                <div id="summary-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz questions array with difficulty levels
+        const questions = [
+            {
+                question: "Which attribute is used to specify that an input field must be filled out?",
+                options: [
+                    "required",
+                    "validate",
+                    "mandatory",
+                    "necessary"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML5 element is used for side content that is tangentially related to the content around it?",
+                options: [
+                    "<aside>",
+                    "<sidebar>",
+                    "<section>",
+                    "<div>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the character encoding for an HTML document?",
+                options: [
+                    "charset",
+                    "encoding",
+                    "char-set",
+                    "character"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which method is used to draw a circle in HTML5 canvas?",
+                options: [
+                    "arc()",
+                    "circle()",
+                    "drawCircle()",
+                    "round()"
+                ],
+                answer: 0,
+                difficulty: "advanced"
+            },
+            {
+                question: "Which HTML element is used to display a scalar measurement within a known range?",
+                options: [
+                    "<meter>",
+                    "<range>",
+                    "<measure>",
+                    "<gauge>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify that a form should not be validated when submitted?",
+                options: [
+                    "novalidate",
+                    "formnovalidate",
+                    "validate=false",
+                    "no-validation"
+                ],
+                answer: 1,
+                difficulty: "advanced"
+            },
+            {
+                question: "Which HTML5 API allows web applications to store data locally in the user's browser?",
+                options: [
+                    "Web Storage API",
+                    "Local Data API",
+                    "Browser Storage API",
+                    "Client Storage API"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which input type allows the user to select a color?",
+                options: [
+                    "color",
+                    "palette",
+                    "select-color",
+                    "color-picker"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which element is used to specify a list of pre-defined options for an <input> element?",
+                options: [
+                    "<datalist>",
+                    "<options>",
+                    "<list>",
+                    "<selectlist>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify that a track is to be treated as a default track?",
+                options: [
+                    "default",
+                    "selected",
+                    "main",
+                    "primary"
+                ],
+                answer: 0,
+                difficulty: "advanced"
+            },
+            {
+                question: "Which method is used to add a new node to the end of the list of children of a specified parent node?",
+                options: [
+                    "appendChild()",
+                    "insertAfter()",
+                    "addNode()",
+                    "insertEnd()"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which property is used to change the text color of an element?",
+                options: [
+                    "color",
+                    "text-color",
+                    "font-color",
+                    "text-style"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML5 element is used to define navigation links?",
+                options: [
+                    "<nav>",
+                    "<navigate>",
+                    "<links>",
+                    "<navigation>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the URL of the image in the <img> tag?",
+                options: [
+                    "src",
+                    "url",
+                    "source",
+                    "img-src"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define the title of a document?",
+                options: [
+                    "<title>",
+                    "<head>",
+                    "<header>",
+                    "<document-title>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify an alternate text for an image?",
+                options: [
+                    "alt",
+                    "text",
+                    "description",
+                    "img-alt"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a table row?",
+                options: [
+                    "<tr>",
+                    "<td>",
+                    "<th>",
+                    "<table-row>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify that an input field is read-only?",
+                options: [
+                    "readonly",
+                    "disabled",
+                    "static",
+                    "readonlyonly"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a list item?",
+                options: [
+                    "<li>",
+                    "<list>",
+                    "<item>",
+                    "<list-item>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the maximum value for an <input> element?",
+                options: [
+                    "max",
+                    "maximum",
+                    "top",
+                    "max-value"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a header for a document or section?",
+                options: [
+                    "<header>",
+                    "<head>",
+                    "<top>",
+                    "<section-header>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the URL of the page that the link goes to?",
+                options: [
+                    "href",
+                    "url",
+                    "link",
+                    "src"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a footer for a document or section?",
+                options: [
+                    "<footer>",
+                    "<bottom>",
+                    "<end>",
+                    "<section-footer>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the type of an <input> element?",
+                options: [
+                    "type",
+                    "input-type",
+                    "kind",
+                    "input-kind"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a section in a document?",
+                options: [
+                    "<section>",
+                    "<div>",
+                    "<area>",
+                    "<block>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the name of an <input> element?",
+                options: [
+                    "name",
+                    "id",
+                    "class",
+                    "input-name"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a description list?",
+                options: [
+                    "<dl>",
+                    "<description-list>",
+                    "<list>",
+                    "<desc-list>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the minimum value for an <input> element?",
+                options: [
+                    "min",
+                    "minimum",
+                    "bottom",
+                    "min-value"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a hyperlink?",
+                options: [
+                    "<a>",
+                    "<link>",
+                    "<hyperlink>",
+                    "<url>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the initial value for an <input> element?",
+                options: [
+                    "value",
+                    "initial",
+                    "default",
+                    "start"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define an unordered list?",
+                options: [
+                    "<ul>",
+                    "<unordered-list>",
+                    "<list>",
+                    "<bullet-list>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the step size for an <input> element?",
+                options: [
+                    "step",
+                    "increment",
+                    "size",
+                    "change"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define an ordered list?",
+                options: [
+                    "<ol>",
+                    "<ordered-list>",
+                    "<list>",
+                    "<number-list>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the pattern for an <input> element?",
+                options: [
+                    "pattern",
+                    "regex",
+                    "format",
+                    "structure"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a table header?",
+                options: [
+                    "<th>",
+                    "<table-header>",
+                    "<header>",
+                    "<thead>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the maximum length for an <input> element?",
+                options: [
+                    "maxlength",
+                    "maximum-length",
+                    "size",
+                    "length"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a table data cell?",
+                options: [
+                    "<td>",
+                    "<table-data>",
+                    "<data>",
+                    "<tdata>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify that an input field must be filled out before submitting the form?",
+                options: [
+                    "required",
+                    "must",
+                    "necessary",
+                    "mandatory"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a table?",
+                options: [
+                    "<table>",
+                    "<tab>",
+                    "<grid>",
+                    "<data-table>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the placeholder text for an <input> element?",
+                options: [
+                    "placeholder",
+                    "hint",
+                    "tip",
+                    "example"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a button?",
+                options: [
+                    "<button>",
+                    "<btn>",
+                    "<click>",
+                    "<action>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify that an input field is disabled?",
+                options: [
+                    "disabled",
+                    "readonly",
+                    "static",
+                    "inactive"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a form?",
+                options: [
+                    "<form>",
+                    "<input-form>",
+                    "<user-form>",
+                    "<data-form>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the action URL for a form?",
+                options: [
+                    "action",
+                    "url",
+                    "method",
+                    "destination"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define an image?",
+                options: [
+                    "<img>",
+                    "<image>",
+                    "<pic>",
+                    "<picture>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the HTTP method for submitting a form?",
+                options: [
+                    "method",
+                    "http-method",
+                    "action-method",
+                    "submit-method"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a paragraph?",
+                options: [
+                    "<p>",
+                    "<paragraph>",
+                    "<text>",
+                    "<para>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the target for a hyperlink?",
+                options: [
+                    "target",
+                    "destination",
+                    "window",
+                    "open-in"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a division or section?",
+                options: [
+                    "<div>",
+                    "<division>",
+                    "<section>",
+                    "<part>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the source of an iframe?",
+                options: [
+                    "src",
+                    "source",
+                    "url",
+                    "frame-src"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a span of text?",
+                options: [
+                    "<span>",
+                    "<text>",
+                    "<inline>",
+                    "<txt>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the width of an element?",
+                options: [
+                    "width",
+                    "size",
+                    "wide",
+                    "horizontal"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a line break?",
+                options: [
+                    "<br>",
+                    "<break>",
+                    "<lb>",
+                    "<line-break>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the height of an element?",
+                options: [
+                    "height",
+                    "size",
+                    "tall",
+                    "vertical"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a horizontal rule?",
+                options: [
+                    "<hr>",
+                    "<horizontal-rule>",
+                    "<line>",
+                    "<rule>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the alternative text for an image?",
+                options: [
+                    "alt",
+                    "alternative",
+                    "text",
+                    "description"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a subscript text?",
+                options: [
+                    "<sub>",
+                    "<subscript>",
+                    "<low>",
+                    "<below>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the CSS style of an element?",
+                options: [
+                    "style",
+                    "css",
+                    "design",
+                    "appearance"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a superscript text?",
+                options: [
+                    "<sup>",
+                    "<superscript>",
+                    "<high>",
+                    "<above>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the class of an element?",
+                options: [
+                    "class",
+                    "type",
+                    "category",
+                    "group"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a container for external content?",
+                options: [
+                    "<iframe>",
+                    "<frame>",
+                    "<external>",
+                    "<embed>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the ID of an element?",
+                options: [
+                    "id",
+                    "identity",
+                    "name",
+                    "element-id"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a container for SVG graphics?",
+                options: [
+                    "<svg>",
+                    "<graphics>",
+                    "<vector>",
+                    "<canvas>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the language of the content?",
+                options: [
+                    "lang",
+                    "language",
+                    "content-language",
+                    "locale"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a container for multimedia content?",
+                options: [
+                    "<video>",
+                    "<media>",
+                    "<multimedia>",
+                    "<movie>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the source of a video?",
+                options: [
+                    "src",
+                    "source",
+                    "video-src",
+                    "url"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a container for audio content?",
+                options: [
+                    "<audio>",
+                    "<sound>",
+                    "<music>",
+                    "<wave>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the source of an audio?",
+                options: [
+                    "src",
+                    "source",
+                    "audio-src",
+                    "url"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a container for JavaScript code?",
+                options: [
+                    "<script>",
+                    "<javascript>",
+                    "<code>",
+                    "<js>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the source of a script?",
+                options: [
+                    "src",
+                    "source",
+                    "script-src",
+                    "url"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which HTML element is used to define a container for CSS styles?",
+                options: [
+                    "<style>",
+                    "<css>",
+                    "<design>",
+                    "<stylesheet>"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            },
+            {
+                question: "Which attribute is used to specify the media type of a style sheet?",
+                options: [
+                    "media",
+                    "type",
+                    "media-type",
+                    "style-media"
+                ],
+                answer: 0,
+                difficulty: "intermediate"
+            }
+        ];
+
+        // Quiz state variables
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let correctAnswers = 0;
+        let quizCompleted = false;
+
+        // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const questionText = document.getElementById('question-text');
+        const currentQuestionElement = document.getElementById('current-question');
+        const optionsContainer = document.getElementById('options');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const scoreElement = document.getElementById('score');
+        const finalScoreElement = document.getElementById('final-score');
+        const correctAnswersElement = document.getElementById('correct-answers');
+        const incorrectAnswersElement = document.getElementById('incorrect-answers');
+        const progressBar = document.getElementById('progress-bar');
+        const summaryContainer = document.getElementById('summary-container');
+        const resultMessage = document.getElementById('result-message');
+        const difficultyContainer = document.querySelector('.difficulty');
+
+        // Initialize the quiz
+        function initQuiz() {
+            showQuestion();
+            updateProgressBar();
+            updateStats();
+            
+            // Add event listeners
+            prevBtn.addEventListener('click', showPreviousQuestion);
+            nextBtn.addEventListener('click', showNextQuestion);
+            restartBtn.addEventListener('click', restartQuiz);
+        }
+
+        // Display current question
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            currentQuestionElement.textContent = currentQuestion + 1;
+            questionText.innerHTML = question.question;
+            
+            // Update difficulty badge
+            difficultyContainer.innerHTML = `
+                <span class="difficulty-badge ${question.difficulty}">${question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span>
+            `;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add options
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                if (userAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.innerHTML = option;
+                optionElement.setAttribute('data-index', index);
+                optionElement.addEventListener('click', selectOption);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = currentQuestion === 0;
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = 'Finish';
+            } else {
+                nextBtn.textContent = 'Next';
+            }
+        }
+
+        // Select an option
+        function selectOption() {
+            const selectedIndex = parseInt(this.getAttribute('data-index'));
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            // Update UI
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            this.classList.add('selected');
+            
+            // Check if answer is correct
+            const isCorrect = selectedIndex === questions[currentQuestion].answer;
+            if (isCorrect && userAnswers[currentQuestion] !== null) {
+                correctAnswers++;
+            }
+            
+            updateStats();
+        }
+
+        // Show next question
+        function showNextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                finishQuiz();
+            }
+            updateProgressBar();
+        }
+
+        // Show previous question
+        function showPreviousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+            updateProgressBar();
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Update stats
+        function updateStats() {
+            const correct = userAnswers.filter((answer, index) => 
+                answer === questions[index].answer
+            ).length;
+            
+            const incorrect = userAnswers.filter(answer => 
+                answer !== null
+            ).length - correct;
+            
+            const score = Math.round((correct / questions.length) * 100);
+            
+            correctAnswersElement.textContent = correct;
+            incorrectAnswersElement.textContent = incorrect;
+            scoreElement.textContent = score;
+        }
+
+        // Finish quiz
+        function finishQuiz() {
+            quizCompleted = true;
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            const correct = userAnswers.filter((answer, index) => 
+                answer === questions[index].answer
+            ).length;
+            
+            const score = Math.round((correct / questions.length) * 100);
+            finalScoreElement.textContent = score;
+            
+            // Set result message based on score
+            if (score >= 90) {
+                resultMessage.textContent = "Excellent! You're an HTML expert!";
+            } else if (score >= 70) {
+                resultMessage.textContent = "Great job! You have a solid understanding of HTML.";
+            } else if (score >= 50) {
+                resultMessage.textContent = "Good effort! Keep learning to improve your HTML skills.";
+            } else {
+                resultMessage.textContent = "Keep practicing! HTML mastery comes with time and experience.";
+            }
+            
+            // Generate summary
+            generateSummary();
+        }
+
+        // Generate question summary
+        function generateSummary() {
+            summaryContainer.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const summaryItem = document.createElement('div');
+                summaryItem.classList.add('question');
+                
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.answer;
+                
+                summaryItem.innerHTML = `
+                    <div class="question-number">Question ${index + 1} <span class="difficulty-badge ${question.difficulty}">${question.difficulty.charAt(0).toUpperCase() + question.difficulty.slice(1)}</span></div>
+                    <div class="question-text">${question.question}</div>
+                    <div class="user-answer">Your answer: ${userAnswer !== null ? question.options[userAnswer] : 'Not answered'}</div>
+                    <div class="correct-answer">Correct answer: ${question.options[question.answer]}</div>
+                    <div class="result ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? '✓ Correct' : '✗ Incorrect'}</div>
+                `;
+                
+                summaryContainer.appendChild(summaryItem);
+            });
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            correctAnswers = 0;
+            quizCompleted = false;
+            
+            quizContainer.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            
+            showQuestion();
+            updateProgressBar();
+            updateStats();
+        }
+
+        // Initialize the quiz when the page loads
+        window.addEventListener('load', initQuiz);
+    </script>
+</body>
+</html>
