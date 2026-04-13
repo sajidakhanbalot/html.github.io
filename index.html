@@ -3,295 +3,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exam Mode Quiz</title>
-
+<title>HTML & Computer Basics Quiz – 150 Marks</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-  font-family:'Segoe UI',sans-serif;
-  background:#f1f5f9;
-}
-
-/* HEADER */
-header{
-  background:linear-gradient(135deg,#2563eb,#1e40af);
-  color:#fff;
-  padding:20px;
-  text-align:center;
-}
-
-header h1{font-size:24px;}
-header p{font-size:14px;opacity:0.8}
-
-/* TOP BAR */
-#topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 20px;
-  background:#fff;
-  border-bottom:1px solid #ddd;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-#timer{
-  font-weight:bold;
-  font-size:18px;
-  color:#2563eb;
-}
-
-#timer.danger{
-  color:#dc2626;
-  animation:blink 1s infinite;
-}
-
-@keyframes blink{
-  50%{opacity:0.4;}
-}
-
-#progress{
-  font-size:14px;
-  color:#64748b;
-}
-
-/* PROGRESS BAR */
-#progress-bar{
-  height:6px;
-  background:#e2e8f0;
-}
-#progress-fill{
-  height:6px;
-  width:0%;
-  background:#2563eb;
-  transition:0.3s;
-}
-
-/* QUESTIONS */
-.card{
-  background:#fff;
-  margin:12px;
-  border-radius:10px;
-  border:2px solid #e2e8f0;
-  padding:15px;
-}
-
-.card.answered{border-color:#22c55e;}
-.card.unanswered{border-color:#ef4444;}
-
-.option{
-  display:block;
-  padding:8px;
-  margin:6px 0;
-  border-radius:6px;
-  border:1px solid #e2e8f0;
-  cursor:pointer;
-}
-
-.option:hover{background:#eff6ff;}
-
-button{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  padding:12px 30px;
-  border-radius:8px;
-  font-weight:bold;
-  cursor:pointer;
-}
-button:hover{background:#1d4ed8;}
-
-/* RESULT */
-#result{
-  display:none;
-  text-align:center;
-  padding:30px;
-}
-
-.score{
-  font-size:48px;
-  color:#2563eb;
-  font-weight:800;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #1a202c; }
+  #header { background: linear-gradient(135deg, #2563eb, #1e40af); color: #fff; padding: 28px 24px 20px; text-align: center; }
+  #header h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+  .header-stats { display: flex; justify-content: center; gap: 24px; margin-top: 14px; flex-wrap: wrap; }
+  .stat-pill { background: rgba(255,255,255,0.18); border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 600; }
+  #progress-bar-wrap { background: #e2e8f0; height: 8px; }
+  #progress-bar { height: 8px; background: #2563eb; width: 0%; transition: width 0.3s; }
+  #timer-bar { background: #fff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; position: sticky; top: 0; z-index: 100; }
+  #timer-display { font-size: 18px; font-weight: 700; color: #2563eb; }
+  #timer-display.danger { color: #dc2626; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  #answered-count { font-size: 13px; color: #64748b; }
+  .section-header { background: #1e40af; color: #fff; padding: 14px 24px; font-size: 17px; font-weight: 700; }
+  .section-header.comp { background:#065f46; }
+  .question-card { background: #fff; margin: 12px 18px; border-radius: 10px; border: 1.5px solid #e2e8f0; overflow: hidden; }
+  .question-card:hover { border-color: #93c5fd; }
+  .question-card.answered { border-color: #86efac; }
+  .question-num { background: #eff6ff; color: #2563eb; font-size: 12px; font-weight: 700; padding: 6px 14px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; }
+  .question-text { padding: 14px 16px 10px; font-size: 15px; font-weight: 500; line-height: 1.5; }
+  .options-list { padding: 2px 16px 14px; list-style: none; }
+  .options-list label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 14px; padding: 8px 10px; border-radius: 7px; border: 1px solid #e2e8f0; }
+  .options-list label:hover { background: #eff6ff; }
+  #result-screen { display: none; padding: 30px 20px; max-width: 700px; margin: 0 auto; }
+  .result-card { background: #fff; border-radius: 16px; border: 1.5px solid #e2e8f0; padding: 32px; text-align: center; }
+  .result-score { font-size: 60px; font-weight: 800; color: #2563eb; }
+  .restart-btn { background: #2563eb; color: #fff; border: none; border-radius: 10px; padding: 14px 36px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 16px; }
 </style>
 </head>
-
 <body>
 
-<header>
-<h1>HTML & Computer Basics Exam</h1>
-<p>150 Questions • 150 Marks • 120 Minutes</p>
-</header>
+<div id="quiz-wrap">
+  <div id="header">
+    <h1>HTML & Computer Basics Quiz</h1>
+    <p>150 Questions • 150 Marks • 120 Minutes</p>
+    <div class="header-stats">
+      <span class="stat-pill">150 Questions</span>
+      <span class="stat-pill">150 Marks</span>
+      <span class="stat-pill">Time: 120 Minutes</span>
+    </div>
+  </div>
+  <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+  <div id="timer-bar">
+    <div>
+      <div id="timer-display">⏱ 120:00</div>
+      <div id="answered-count">0 / 150 answered</div>
+    </div>
+    <button onclick="confirmSubmit()" style="background:#2563eb;color:white;border:none;padding:8px 20px;border-radius:8px;cursor:pointer;">Submit</button>
+  </div>
 
-<div id="topbar">
-<div id="timer">⏱ 120:00</div>
-<div id="progress">0 / 150</div>
-<button onclick="confirmSubmit()">Submit</button>
+  <form id="quiz-form">
+    <div class="section-header">Section A — HTML Basics <span style="background:rgba(255,255,255,0.25);padding:3px 12px;border-radius:12px;font-size:13px;">100 Questions</span></div>
+    <div id="html-questions"></div>
+
+    <div class="section-header comp">Section B — Computer Basics <span style="background:rgba(255,255,255,0.25);padding:3px 12px;border-radius:12px;font-size:13px;">50 Questions</span></div>
+    <div id="comp-questions"></div>
+
+    <div style="text-align:center;padding:30px;">
+      <button type="button" onclick="confirmSubmit()" style="background:#2563eb;color:#fff;border:none;border-radius:10px;padding:16px 48px;font-size:17px;font-weight:700;cursor:pointer;">Submit & See Results</button>
+    </div>
+  </form>
 </div>
 
-<div id="progress-bar"><div id="progress-fill"></div></div>
+<!-- Result Screen -->
+<div id="result-screen">
+  <div class="result-card">
+    <div style="font-size:48px;margin-bottom:8px;" id="result-emoji">🎉</div>
+    <div class="result-score" id="result-score-val">0</div>
+    <div class="result-total">out of 150</div>
+    <div class="result-grade" id="result-grade"></div>
 
-<form id="quiz"></form>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;">
+      <div style="background:#f0fdf4;padding:16px;border-radius:10px;"><div style="color:#64748b;font-size:13px;">Correct</div><div id="r-correct" style="font-size:28px;font-weight:700;color:#16a34a;">0</div></div>
+      <div style="background:#fee2e2;padding:16px;border-radius:10px;"><div style="color:#64748b;font-size:13px;">Wrong</div><div id="r-wrong" style="font-size:28px;font-weight:700;color:#ef4444;">0</div></div>
+      <div style="background:#fef3c7;padding:16px;border-radius:10px;"><div style="color:#64748b;font-size:13px;">Skipped</div><div id="r-skipped" style="font-size:28px;font-weight:700;color:#d97706;">0</div></div>
+      <div style="background:#e0f2fe;padding:16px;border-radius:10px;"><div style="color:#64748b;font-size:13px;">Percentage</div><div id="r-pct" style="font-size:28px;font-weight:700;color:#2563eb;">0%</div></div>
+    </div>
 
-<div style="text-align:center;margin:20px;">
-<button onclick="confirmSubmit()">Final Submit</button>
+    <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+  </div>
 </div>
-
-<div id="result"></div>
 
 <script>
-
-// ================= QUESTIONS =================
-let htmlQuestions = [
-{q:"HTML stands for?",opts:["HyperText Markup Language","HighText Machine Language","Hyper Tool","None"],ans:0},
-{q:"Which tag creates link?",opts:["&lt;a&gt;","&lt;link&gt;","&lt;href&gt;","&lt;url&gt;"],ans:0},
-{q:"Which tag inserts image?",opts:["&lt;img&gt;","&lt;image&gt;","&lt;pic&gt;","&lt;src&gt;"],ans:0},
+// ==================== FIXED 100 HTML QUESTIONS ====================
+const htmlQuestions = [
+  {q:"What does HTML stand for?", opts:["HyperText Markup Language","HighText Machine Language","Hyper Tool Multi Language","None"], ans:0},
+  {q:"Which tag is used to create a hyperlink?", opts:["&lt;a&gt;","&lt;link&gt;","&lt;href&gt;","&lt;url&gt;"], ans:0},
+  {q:"Which attribute specifies link destination?", opts:["src","href","link","url"], ans:1},
+  {q:"Which tag inserts an image?", opts:["&lt;img&gt;","&lt;image&gt;","&lt;pic&gt;","&lt;src&gt;"], ans:0},
+  {q:"Which tag creates a paragraph?", opts:["&lt;p&gt;","&lt;text&gt;","&lt;para&gt;","&lt;pg&gt;"], ans:0},
+  {q:"What is the correct line break tag?", opts:["&lt;br&gt;","&lt;break&gt;","&lt;lb&gt;","&lt;newline&gt;"], ans:0},
+  {q:"Which tag is used for the largest heading?", opts:["&lt;h6&gt;","&lt;h1&gt;","&lt;head&gt;","&lt;title&gt;"], ans:1},
+  {q:"Which tag is used to make text bold?", opts:["&lt;bold&gt;","&lt;b&gt;","&lt;stronger&gt;","&lt;heavy&gt;"], ans:1},
+  {q:"Which tag is used to make text italic?", opts:["&lt;i&gt;","&lt;italic&gt;","&lt;emph&gt;","&lt;text&gt;"], ans:0},
+  {q:"Which tag creates an unordered list?", opts:["&lt;ul&gt;","&lt;ol&gt;","&lt;li&gt;","&lt;list&gt;"], ans:0},
+  {q:"Which tag creates an ordered list?", opts:["&lt;ul&gt;","&lt;ol&gt;","&lt;li&gt;","&lt;list&gt;"], ans:1},
+  {q:"Which tag is used for list items?", opts:["&lt;li&gt;","&lt;ul&gt;","&lt;ol&gt;","&lt;item&gt;"], ans:0},
+  {q:"Which tag creates a table?", opts:["&lt;table&gt;","&lt;tr&gt;","&lt;td&gt;","&lt;th&gt;"], ans:0},
+  {q:"Which tag defines a table row?", opts:["&lt;td&gt;","&lt;tr&gt;","&lt;th&gt;","&lt;row&gt;"], ans:1},
+  {q:"Which tag defines table data cell?", opts:["&lt;td&gt;","&lt;tr&gt;","&lt;th&gt;","&lt;data&gt;"], ans:0},
+  {q:"Which tag defines table header cell?", opts:["&lt;td&gt;","&lt;tr&gt;","&lt;th&gt;","&lt;head&gt;"], ans:2},
+  {q:"Which tag is used to create a form?", opts:["&lt;form&gt;","&lt;input&gt;","&lt;submit&gt;","&lt;field&gt;"], ans:0},
+  {q:"Which tag creates an input field?", opts:["&lt;input&gt;","&lt;text&gt;","&lt;field&gt;","&lt;form&gt;"], ans:0},
+  {q:"Which tag creates a button?", opts:["&lt;btn&gt;","&lt;button&gt;","&lt;click&gt;","&lt;press&gt;"], ans:1},
+  {q:"Which attribute specifies image source?", opts:["href","src","link","url"], ans:1},
+  {q:"Which attribute provides alternative text for image?", opts:["title","alt","text","desc"], ans:1},
+  {q:"How do you write HTML comments?", opts:["//","&lt;!-- --&gt;","##","/* */"], ans:1},
+  {q:"What is the correct DOCTYPE declaration?", opts:["&lt;doctype&gt;","&lt;!DOCTYPE html&gt;","&lt;html&gt;","&lt;doc&gt;"], ans:1},
+  {q:"Which tag defines the title of the document?", opts:["&lt;title&gt;","&lt;head&gt;","&lt;meta&gt;","&lt;header&gt;"], ans:0},
+  {q:"Which tag contains metadata?", opts:["&lt;head&gt;","&lt;header&gt;","&lt;top&gt;","&lt;meta&gt;"], ans:0},
+  {q:"Which tag contains the main visible content?", opts:["&lt;body&gt;","&lt;main&gt;","&lt;content&gt;","&lt;section&gt;"], ans:0},
+  {q:"Which tag creates a horizontal line?", opts:["&lt;hr&gt;","&lt;br&gt;","&lt;line&gt;","&lt;rule&gt;"], ans:0},
+  {q:"Which tag is a block-level container?", opts:["&lt;div&gt;","&lt;span&gt;","&lt;box&gt;","&lt;section&gt;"], ans:0},
+  {q:"Which tag is an inline container?", opts:["&lt;div&gt;","&lt;span&gt;","&lt;p&gt;","&lt;section&gt;"], ans:1},
+  {q:"Which attribute uniquely identifies an element?", opts:["class","id","name","type"], ans:1},
+  {q:"Which attribute is used for grouping elements?", opts:["class","id","name","group"], ans:0},
+  {q:"How do you open a link in a new tab?", opts:["target=\"_blank\"","new=\"tab\"","open=\"new\"","href=\"new\""], ans:0},
+  {q:"Which tag creates a dropdown list?", opts:["&lt;select&gt;","&lt;dropdown&gt;","&lt;list&gt;","&lt;input&gt;"], ans:0},
+  {q:"Which tag defines options in a dropdown?", opts:["&lt;option&gt;","&lt;item&gt;","&lt;choice&gt;","&lt;list&gt;"], ans:0},
+  {q:"Which tag creates a multi-line text input?", opts:["&lt;textarea&gt;","&lt;input&gt;","&lt;text&gt;","&lt;box&gt;"], ans:0},
+  {q:"Which input type creates a checkbox?", opts:["type=\"checkbox\"","type=\"check\"","type=\"tick\"","type=\"box\""], ans:0},
+  {q:"Which input type creates a radio button?", opts:["type=\"radio\"","type=\"circle\"","type=\"select\"","type=\"choose\""], ans:0},
+  {q:"Which input type is used for password?", opts:["type=\"password\"","type=\"secret\"","type=\"hide\"","type=\"lock\""], ans:0},
+  {q:"Which input type is used for email?", opts:["type=\"email\"","type=\"mail\"","type=\"text\"","type=\"contact\""], ans:0},
+  {q:"Which HTML5 semantic tag represents independent content?", opts:["&lt;article&gt;","&lt;div&gt;","&lt;span&gt;","&lt;box&gt;"], ans:0},
+  {q:"Which tag is used for navigation links?", opts:["&lt;nav&gt;","&lt;menu&gt;","&lt;section&gt;","&lt;aside&gt;"], ans:0},
+  {q:"Which tag defines the footer of a page?", opts:["&lt;footer&gt;","&lt;bottom&gt;","&lt;end&gt;","&lt;foot&gt;"], ans:0},
+  {q:"Which tag defines the header of a page/section?", opts:["&lt;header&gt;","&lt;head&gt;","&lt;top&gt;","&lt;title&gt;"], ans:0},
+  {q:"Which tag represents the main content?", opts:["&lt;main&gt;","&lt;body&gt;","&lt;section&gt;","&lt;content&gt;"], ans:0},
+  {q:"Which tag is used to highlight text?", opts:["&lt;mark&gt;","&lt;highlight&gt;","&lt;em&gt;","&lt;b&gt;"], ans:0},
+  {q:"Which tag creates superscript text?", opts:["&lt;sup&gt;","&lt;sub&gt;","&lt;top&gt;","&lt;up&gt;"], ans:0},
+  {q:"Which tag creates subscript text?", opts:["&lt;sub&gt;","&lt;sup&gt;","&lt;down&gt;","&lt;low&gt;"], ans:0},
+  {q:"Which tag represents computer code?", opts:["&lt;code&gt;","&lt;script&gt;","&lt;pre&gt;","&lt;kbd&gt;"], ans:0},
+  {q:"Which tag preserves whitespace and formatting?", opts:["&lt;pre&gt;","&lt;text&gt;","&lt;code&gt;","&lt;format&gt;"], ans:0},
+  {q:"What is the purpose of &lt;iframe&gt;?", opts:["Embed another webpage","Display image","Play video","Play audio"], ans:0},
+  {q:"Which tag is used to embed video?", opts:["&lt;video&gt;","&lt;media&gt;","&lt;movie&gt;","&lt;play&gt;"], ans:0},
+  {q:"Which tag is used to embed audio?", opts:["&lt;audio&gt;","&lt;sound&gt;","&lt;music&gt;","&lt;play&gt;"], ans:0},
+  {q:"What is the purpose of &lt;meta&gt; tag?", opts:["Provide metadata","Display image","Create link","Add style"], ans:0},
+  {q:"What does charset meta tag specify?", opts:["Character encoding","Font type","Page size","Document type"], ans:0},
+  {q:"What does placeholder attribute do?", opts:["Shows hint text","Acts as label","Sets default value","Adds title"], ans:0},
+  {q:"What does required attribute do?", opts:["Makes field mandatory","Disables field","Hides field","Validates format"], ans:0},
+  {q:"Which attribute disables an element?", opts:["disabled","off","inactive","block"], ans:0},
+  {q:"Which attribute makes a field read-only?", opts:["readonly","static","lock","disable"], ans:0},
+  {q:"What does the style attribute do?", opts:["Adds inline CSS","Adds JavaScript","Links external file","Formats text"], ans:0},
+  {q:"Which tag is used for abbreviation?", opts:["&lt;abbr&gt;","&lt;short&gt;","&lt;acronym&gt;","&lt;ab&gt;"], ans:0},
+  {q:"Which tag defines a description list?", opts:["&lt;dl&gt;","&lt;ul&gt;","&lt;ol&gt;","&lt;list&gt;"], ans:0},
+  {q:"Which tag is used inside &lt;dl&gt; for term?", opts:["&lt;dt&gt;","&lt;dd&gt;","&lt;li&gt;","&lt;term&gt;"], ans:0},
+  {q:"Which tag is used inside &lt;dl&gt; for description?", opts:["&lt;dd&gt;","&lt;dt&gt;","&lt;li&gt;","&lt;desc&gt;"], ans:0},
+  {q:"What does &lt;canvas&gt; element allow?", opts:["Draw graphics with JavaScript","Display images","Play video","Create forms"], ans:0},
+  {q:"Which attribute links a label to an input?", opts:["for","id","name","class"], ans:0},
+  {q:"What is semantic HTML?", opts:["Using meaningful tags","Using only div and span","Adding more CSS","Using only inline styles"], ans:0},
+  {q:"Which tag groups related form elements?", opts:["&lt;fieldset&gt;","&lt;form&gt;","&lt;group&gt;","&lt;section&gt;"], ans:0},
+  {q:"Which tag is used for progress bar?", opts:["&lt;progress&gt;","&lt;meter&gt;","&lt;bar&gt;","&lt;range&gt;"], ans:0},
+  {q:"Which input type is for date?", opts:["type=\"date\"","type=\"calendar\"","type=\"day\"","type=\"time\""], ans:0},
+  {q:"Which input type creates a slider?", opts:["type=\"range\"","type=\"slider\"","type=\"number\"","type=\"scroll\""], ans:0},
+  {q:"What does target=\"_self\" do?", opts:["Opens in same tab","Opens in new tab","Opens in parent frame","Downloads file"], ans:0},
+  {q:"Which tag is used for deleted text?", opts:["&lt;del&gt;","&lt;strike&gt;","&lt;remove&gt;","&lt;cut&gt;"], ans:0},
+  {q:"Which tag is used for inserted text?", opts:["&lt;ins&gt;","&lt;add&gt;","&lt;new&gt;","&lt;insert&gt;"], ans:0},
+  {q:"What is the default value of method attribute in form?", opts:["GET","POST","PUT","DELETE"], ans:0},
+  {q:"Which attribute sends form data to server?", opts:["action","method","href","target"], ans:0},
+  {q:"Which tag is used for figure with caption?", opts:["&lt;figure&gt;","&lt;img&gt;","&lt;caption&gt;","&lt;pic&gt;"], ans:0},
+  {q:"Which tag provides caption for figure?", opts:["&lt;figcaption&gt;","&lt;caption&gt;","&lt;label&gt;","&lt;title&gt;"], ans:0},
+  {q:"What does &lt;aside&gt; tag represent?", opts:["Sidebar content","Main content","Footer","Header"], ans:0},
+  {q:"Which tag is used for time and date?", opts:["&lt;time&gt;","&lt;date&gt;","&lt;clock&gt;","&lt;datetime&gt;"], ans:0},
+  {q:"What is the correct way to write a self-closing tag?", opts:["&lt;br/&gt;","&lt;br&gt;","&lt;/br&gt;","&lt;br &gt;"], ans:0},
+  {q:"Which attribute sets maximum length of input?", opts:["maxlength","size","length","max"], ans:0}
 ];
 
-// fill to 100
-while(htmlQuestions.length<100){
- htmlQuestions.push({
-  q:"HTML Question "+(htmlQuestions.length+1),
-  opts:["Option A","Option B","Option C","Option D"],
-  ans:Math.floor(Math.random()*4)
- });
-}
-
-let compQuestions = [
-{q:"CPU full form?",opts:["Central Processing Unit","Control Unit","Computer Unit","Core Unit"],ans:0},
-{q:"RAM full form?",opts:["Random Access Memory","Read Memory","Run Memory","Rapid Memory"],ans:0},
+// ==================== COMPUTER BASICS (50 Questions) ====================
+const compQuestions = [
+  {q:"What is a computer?", opts:["Electronic device that processes data","Mechanical typewriter","Television","Digital camera"], ans:0},
+  {q:"What does CPU stand for?", opts:["Central Process Unit","Central Processing Unit","Computer Process Unit","Core Processing Unit"], ans:1},
+  {q:"Which is called the brain of computer?", opts:["RAM","Hard Disk","CPU","Monitor"], ans:2},
+  {q:"What does RAM stand for?", opts:["Read Access Memory","Random Access Memory","Rapid Access Memory","Read All Memory"], ans:1},
+  {q:"What is the function of RAM?", opts:["Permanent storage","Temporary storage","Display graphics","Power supply"], ans:1},
+  {q:"What does ROM stand for?", opts:["Read Only Memory","Random Only Memory","Read Off Memory","Rapid Only Memory"], ans:0},
+  {q:"What is an Operating System?", opts:["Word processor","System software that manages hardware","Antivirus","Web browser"], ans:1},
+  {q:"How many bytes in 1 KB?", opts:["100","512","1024","2048"], ans:2},
+  {q:"What does USB stand for?", opts:["Universal Serial Bus","Universal System Bus","Unified Serial Bus","Ultra Serial Bus"], ans:0},
+  {q:"Keyboard is which type of device?", opts:["Output","Storage","Input","Processing"], ans:2},
+  {q:"Monitor is which type of device?", opts:["Input","Storage","Processing","Output"], ans:3},
+  {q:"What is software?", opts:["Physical parts","Programs and data","Monitor","Power supply"], ans:1},
+  {q:"What is hardware?", opts:["Programs","Internet","Physical components","OS"], ans:2},
+  {q:"WWW stands for?", opts:["World Wide Web","World Wide Wire","Wide World Web","World Web Wire"], ans:0},
+  {q:"What is a web browser?", opts:["Email program","Software to access internet","Search engine","ISP"], ans:1},
+  {q:"URL stands for?", opts:["Uniform Resource Locator","Universal Resource Link","Uniform Reference Link","Unique Resource Locator"], ans:0},
+  {q:"What does firewall do?", opts:["Improves speed","Controls network traffic","Stores data","Displays graphics"], ans:1},
+  {q:"What is cloud storage?", opts:["Inside CPU","Physical hard drive","Online storage","USB drive"], ans:2},
+  {q:"LAN stands for?", opts:["Large Area Network","Local Area Network","Long Area Network","Linked Area Network"], ans:1},
+  {q:"WAN stands for?", opts:["Wide Area Network","Wireless Area Network","Web Area Network","World Area Network"], ans:0},
+  {q:"What is a pixel?", opts:["File size unit","Smallest unit of image","Internet speed","Font size"], ans:1},
+  {q:"What does PDF stand for?", opts:["Portable Document Format","Printed Document File","Personal Data File","Portable Data Format"], ans:0},
+  {q:"What is multitasking?", opts:["Running multiple programs","Copying files","Changing wallpaper","Connecting internet"], ans:0},
+  {q:"What is a virus?", opts:["Hardware defect","Malicious program","Slow internet","Antivirus"], ans:1},
+  {q:"What does Ctrl + S do?", opts:["Select all","Save file","Undo","Cut"], ans:1}
 ];
 
-// fill to 50
-while(compQuestions.length<50){
- compQuestions.push({
-  q:"Computer Question "+(compQuestions.length+1),
-  opts:["Option A","Option B","Option C","Option D"],
-  ans:Math.floor(Math.random()*4)
- });
+const allQuestions = [...htmlQuestions, ...compQuestions];
+
+// ==================== CORE FUNCTIONS ====================
+let answeredSet = new Set();
+let totalSeconds = 120 * 60;
+
+function markAnswered(num) {
+  answeredSet.add(num);
+  const card = document.getElementById('q-card-' + num);
+  if (card) card.classList.add('answered');
+  document.getElementById('answered-count').textContent = `${answeredSet.size} / 150 answered`;
+  document.getElementById('progress-bar').style.width = `${(answeredSet.size / 150 * 100).toFixed(1)}%`;
 }
 
-let all=[...htmlQuestions,...compQuestions];
+function buildQuestions(arr, containerId, offset) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  arr.forEach((q, i) => {
+    const num = offset + i + 1;
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    card.id = 'q-card-' + num;
 
-// ================= BUILD =================
-let answers = JSON.parse(localStorage.getItem("answers")||"{}");
-const quiz=document.getElementById("quiz");
+    let optsHtml = q.opts.map((o, j) => `
+      <li>
+        <label>
+          <input type="radio" name="q${num}" value="${j}" onchange="markAnswered(${num})">
+          <span>${String.fromCharCode(65+j)}. ${o}</span>
+        </label>
+      </li>
+    `).join('');
 
-all.forEach((q,i)=>{
- let div=document.createElement("div");
- div.className="card";
- div.id="card"+i;
-
- let opts=q.opts.map((o,j)=>`
-  <label class="option">
-   <input type="radio" name="q${i}" value="${j}"
-    ${answers[i]==j?"checked":""}
-    onchange="saveAnswer(${i},${j})">
-   ${o}
-  </label>
- `).join("");
-
- div.innerHTML=`<b>Q${i+1}. ${q.q}</b>${opts}`;
- quiz.appendChild(div);
-
- if(answers[i]!=undefined){
-   div.classList.add("answered");
- }
-});
-
-updateProgress();
-
-// ================= SAVE =================
-function saveAnswer(i,val){
- answers[i]=val;
- localStorage.setItem("answers",JSON.stringify(answers));
-
- document.getElementById("card"+i).classList.add("answered");
- updateProgress();
+    card.innerHTML = `
+      <div class="question-num">
+        <span>Question ${num}</span>
+        <span style="color:#64748b;">1 mark</span>
+      </div>
+      <div class="question-text">${num}. ${q.q}</div>
+      <ul class="options-list">${optsHtml}</ul>
+    `;
+    container.appendChild(card);
+  });
 }
 
-// ================= PROGRESS =================
-function updateProgress(){
- let count=Object.keys(answers).length;
- document.getElementById("progress").innerText = count+" / 150";
- document.getElementById("progress-fill").style.width=(count/150*100)+"%";
+buildQuestions(htmlQuestions, 'html-questions', 0);
+buildQuestions(compQuestions, 'comp-questions', 100);
+
+// Timer
+const timerEl = document.getElementById('timer-display');
+const timer = setInterval(() => {
+  totalSeconds--;
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  timerEl.textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if (totalSeconds <= 300) timerEl.classList.add('danger');
+  if (totalSeconds <= 0) submitQuiz();
+}, 1000);
+
+function confirmSubmit() {
+  const unanswered = 150 - answeredSet.size;
+  if (unanswered > 0 && !confirm(`${unanswered} questions are unanswered.\nSubmit anyway?`)) return;
+  submitQuiz();
 }
 
-// ================= TIMER =================
-let time=120*60;
-let timerEl=document.getElementById("timer");
+function submitQuiz() {
+  clearInterval(timer);
+  let correct = 0, wrong = 0, skipped = 0;
+  let htmlScore = 0, compScore = 0;
 
-let timer=setInterval(()=>{
- time--;
- let m=Math.floor(time/60);
- let s=time%60;
+  allQuestions.forEach((q, i) => {
+    const num = i + 1;
+    const sel = document.querySelector(`input[name="q${num}"]:checked`);
+    if (!sel) skipped++;
+    else if (parseInt(sel.value) === q.ans) {
+      correct++;
+      if (num <= 100) htmlScore++;
+      else compScore++;
+    } else wrong++;
+  });
 
- timerEl.innerText=`⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('quiz-wrap').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
 
- if(time<=300) timerEl.classList.add("danger");
+  const pct = ((correct / 150) * 100).toFixed(1);
+  document.getElementById('result-score-val').textContent = correct;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-skipped').textContent = skipped;
+  document.getElementById('r-pct').textContent = pct + '%';
 
- if(time<=0){
-   clearInterval(timer);
-   submitQuiz();
- }
-},1000);
-
-// ================= SUBMIT =================
-function confirmSubmit(){
-
- let unanswered=150-Object.keys(answers).length;
-
- document.querySelectorAll(".card").forEach((c,i)=>{
-  if(answers[i]==undefined){
-    c.classList.add("unanswered");
-  }
- });
-
- if(unanswered>0){
-  if(!confirm(unanswered+" unanswered. Submit anyway?")) return;
- }
-
- submitQuiz();
+  let grade = pct >= 90 ? "Outstanding — A+" : pct >= 75 ? "Excellent — A" : pct >= 60 ? "Good — B" : pct >= 45 ? "Average — C" : "Needs Improvement — D";
+  document.getElementById('result-grade').textContent = grade;
+  document.getElementById('result-emoji').textContent = pct >= 60 ? "🎉" : "💪";
 }
 
-function submitQuiz(){
-
- clearInterval(timer);
-
- let correct=0,wrong=0,skip=0;
-
- all.forEach((q,i)=>{
-  if(answers[i]==undefined) skip++;
-  else if(answers[i]==q.ans) correct++;
-  else wrong++;
- });
-
- let pct=(correct/150*100).toFixed(1);
-
- document.getElementById("quiz").style.display="none";
-
- let res=document.getElementById("result");
- res.style.display="block";
-
- res.innerHTML=`
-  <div class="score">${correct}/150</div>
-  <p>Correct: ${correct}</p>
-  <p>Wrong: ${wrong}</p>
-  <p>Skipped: ${skip}</p>
-  <p>Percentage: ${pct}%</p>
-  <button onclick="restart()">Restart</button>
- `;
+function restartQuiz() {
+  location.reload();
 }
-
-// ================= RESET =================
-function restart(){
- localStorage.removeItem("answers");
- location.reload();
-}
-
 </script>
-
 </body>
 </html>
